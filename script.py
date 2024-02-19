@@ -38,8 +38,11 @@ translation_table = str.maketrans(characters_to_replace, " " * len(characters_to
 
 # Read the file, replace characters with blank space, update the counter with lowercase words
 with open(if_path, "r") as file:
-    text = file.read().lower().translate(translation_table)  # Replace characters with blank space
-    if_word_counts.update(text.split())
+    text = file.read()
+        # words = re.split(r'[\s"‘,;:’“!.”’—:]+', text)
+    words = [word.lower() for word in re.split(r'\s+|[^\w\s]+', text)]
+    if_word_counts = Counter(words)
+    if_word_counts.pop('', None)
 top_words = if_word_counts.most_common(3)
 
 # Find IP address of the machine
